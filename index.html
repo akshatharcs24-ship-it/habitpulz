@@ -445,17 +445,13 @@
   </nav>
 
   <script src="app.js"></script>
-  <script type="module">
-    import { defineCustomElements } from 'https://unpkg.com/@ionic/pwa-elements@latest/loader/index.es2017.mjs';
-    defineCustomElements(window);
-  </script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(() => console.log('SW registered'));
     }
   </script>
   <script>
-  // ===== AI CHATBOT — Gemini API =====
+  /* AI CHATBOT — Gemini API v2 */
   (function() {
     var GEMINI_KEY = localStorage.getItem("hp_gemini_key") || "";
     var chatHistory = [];
