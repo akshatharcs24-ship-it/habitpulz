@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>HabitPulz - Database Tables</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 40px; color: #000; background: #fff; font-size: 13px; }
+  h2 { color: #00008b; font-size: 16px; margin: 28px 0 8px 0; }
+  h3 { color: #00008b; font-size: 14px; margin: 20px 0 6px 0; }
+
+  /* Description table (phpmyadmin style) */
+  table.desc { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #f2f2f2; }
+  table.desc th { background: #ddd; border: 1px solid #bbb; padding: 5px 8px; font-size: 12px; text-align: left; }
+  table.desc td { border: 1px solid #ccc; padding: 5px 8px; font-size: 12px; background: #fff; }
+  table.desc tr:nth-child(even) td { background: #f9f9f9; }
+  table.desc td.num { color: #333; }
+  td.fname { font-weight: bold; text-decoration: underline; }
+  td.fname.normal { font-weight: bold; text-decoration: none; }
+  .action a { color: #555; font-size: 11px; margin-right: 4px; text-decoration: none; }
+  .action a:hover { text-decoration: underline; }
+  .pencil::before { content: "✏️ "; }
+  .drop::before   { content: "🔴 "; }
+  .key::before    { content: "🔑 "; }
+
+  /* Data table */
+  table.data { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  table.data th { background: #e8e8e8; border: 1px solid #bbb; padding: 6px 10px; font-size: 12px; text-align: left; }
+  table.data td { border: 1px solid #ccc; padding: 6px 10px; font-size: 12px; }
+  table.data tr:nth-child(even) td { background: #f5f5f5; }
+
+  .page-title { font-size: 20px; font-weight: bold; color: #00008b; text-align: center; margin-bottom: 30px; }
+  hr { border: none; border-top: 1px solid #ccc; margin: 30px 0; }
+
+  @media print { body { padding: 20px; } .no-print { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="page-title">Chapter 4 — Database Design<br/><span style="font-size:15px">HabitPulz Database Tables</span></div>
+
+<!-- ══════════════════════════════════════════════════════
+     4.1  USERS TABLE
+══════════════════════════════════════════════════════ -->
+<h2>4.1.1 Users Table: Description</h2>
+<table class="desc">
+  <tr><th>#</th><th>Name</th><th>Type</th><th>Collation</th><th>Attributes</th><th>Null</th><th>Default</th><th>Extra</th><th>Action</th></tr>
+  <tr><td>1</td><td class="fname">id</td><td>int(11)</td><td></td><td></td><td>No</td><td><i>None</i></td><td>AUTO_INCREMENT</td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>2</td><td class="fname normal">name</td><td>varchar(100)</td><td>utf8_general_ci</td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>3</td><td class="fname normal">email</td><td>varchar(100)</td><td>utf8_general_ci</td><td>UNIQUE</td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>4</td><td class="fname normal">password</td><td>varchar(255)</td><td>utf8_general_ci</td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>5</td><td class="fname normal">role</td><td>varchar(10)</td><td>utf8_general_ci</td><td></td><td>No</td><td>user</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+</table>
+
+<h2>4.1.2 Users Table: Data</h2>
+<table class="data">
+  <tr><th>ID</th><th>name</th><th>email</th><th>password</th><th>role</th></tr>
+  <tr><td>1</td><td>Admin</td><td>admin@habitpulz.com</td><td>admin123</td><td>admin</td></tr>
+  <tr><td>2</td><td>Alex</td><td>alex@habitpulz.com</td><td>user123</td><td>user</td></tr>
+  <tr><td>3</td><td>Jordan</td><td>jordan@hp.com</td><td>jordan123</td><td>user</td></tr>
+  <tr><td>4</td><td>Sam</td><td>sam@hp.com</td><td>sam123</td><td>user</td></tr>
+  <tr><td>5</td><td>Taylor</td><td>taylor@hp.com</td><td>taylor123</td><td>user</td></tr>
+</table>
+
+<hr/>
+
+<!-- ══════════════════════════════════════════════════════
+     4.2  HABITS TABLE
+══════════════════════════════════════════════════════ -->
+<h2>4.2.1 Habits Table: Description</h2>
+<table class="desc">
+  <tr><th>#</th><th>Name</th><th>Type</th><th>Collation</th><th>Attributes</th><th>Null</th><th>Default</th><th>Extra</th><th>Action</th></tr>
+  <tr><td>1</td><td class="fname">id</td><td>int(11)</td><td></td><td></td><td>No</td><td><i>None</i></td><td>AUTO_INCREMENT</td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>2</td><td class="fname normal">user_id</td><td>int(11)</td><td></td><td>FK → users.id</td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>3</td><td class="fname normal">name</td><td>varchar(150)</td><td>utf8_general_ci</td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>4</td><td class="fname normal">emoji</td><td>varchar(10)</td><td>utf8_general_ci</td><td></td><td>Yes</td><td>📚</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>5</td><td class="fname normal">category</td><td>varchar(20)</td><td>utf8_general_ci</td><td></td><td>No</td><td>study</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>6</td><td class="fname normal">freq</td><td>varchar(20)</td><td>utf8_general_ci</td><td></td><td>No</td><td>daily</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>7</td><td class="fname normal">streak</td><td>int(11)</td><td></td><td></td><td>No</td><td>0</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>8</td><td class="fname normal">done</td><td>tinyint(1)</td><td></td><td></td><td>No</td><td>0</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>9</td><td class="fname normal">reminder</td><td>time</td><td></td><td></td><td>Yes</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+</table>
+
+<h2>4.2.2 Habits Table: Data</h2>
+<table class="data">
+  <tr><th>ID</th><th>user_id</th><th>name</th><th>emoji</th><th>category</th><th>freq</th><th>streak</th><th>done</th><th>reminder</th></tr>
+  <tr><td>1</td><td>2</td><td>Read 30 minutes</td><td>📚</td><td>study</td><td>daily</td><td>12</td><td>0</td><td>08:00</td></tr>
+  <tr><td>2</td><td>2</td><td>Solve 5 LeetCode problems</td><td>💻</td><td>study</td><td>weekdays</td><td>7</td><td>0</td><td>NULL</td></tr>
+  <tr><td>3</td><td>2</td><td>Drink 8 glasses of water</td><td>💧</td><td>lifestyle</td><td>daily</td><td>20</td><td>0</td><td>09:00</td></tr>
+  <tr><td>4</td><td>2</td><td>Morning workout</td><td>🏋️</td><td>lifestyle</td><td>daily</td><td>9</td><td>0</td><td>06:30</td></tr>
+  <tr><td>5</td><td>3</td><td>Review flashcards</td><td>✏️</td><td>study</td><td>daily</td><td>5</td><td>0</td><td>NULL</td></tr>
+</table>
+
+<hr/>
+
+<!-- ══════════════════════════════════════════════════════
+     4.3  PLANT_LOG TABLE
+══════════════════════════════════════════════════════ -->
+<h2>4.3.1 Plant Log Table: Description</h2>
+<table class="desc">
+  <tr><th>#</th><th>Name</th><th>Type</th><th>Collation</th><th>Attributes</th><th>Null</th><th>Default</th><th>Extra</th><th>Action</th></tr>
+  <tr><td>1</td><td class="fname">log_id</td><td>int(11)</td><td></td><td></td><td>No</td><td><i>None</i></td><td>AUTO_INCREMENT</td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>2</td><td class="fname normal">user_id</td><td>int(11)</td><td></td><td>FK → users.id</td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>3</td><td class="fname normal">date</td><td>date</td><td></td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>4</td><td class="fname normal">type</td><td>varchar(20)</td><td>utf8_general_ci</td><td></td><td>No</td><td>oak</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>5</td><td class="fname normal">count</td><td>int(11)</td><td></td><td></td><td>No</td><td>1</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>6</td><td class="fname normal">week</td><td>varchar(15)</td><td>utf8_general_ci</td><td></td><td>Yes</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+</table>
+
+<h2>4.3.2 Plant Log Table: Data</h2>
+<table class="data">
+  <tr><th>log_id</th><th>user_id</th><th>date</th><th>type</th><th>count</th><th>week</th></tr>
+  <tr><td>1</td><td>2</td><td>2026-04-07</td><td>oak</td><td>3</td><td>Week 14</td></tr>
+  <tr><td>2</td><td>2</td><td>2026-04-14</td><td>pine</td><td>5</td><td>Week 15</td></tr>
+  <tr><td>3</td><td>3</td><td>2026-04-15</td><td>neem</td><td>2</td><td>Week 16</td></tr>
+  <tr><td>4</td><td>4</td><td>2026-05-01</td><td>mango</td><td>4</td><td>Week 18</td></tr>
+</table>
+
+<hr/>
+
+<!-- ══════════════════════════════════════════════════════
+     4.4  SLEEP_LOG TABLE
+══════════════════════════════════════════════════════ -->
+<h2>4.4.1 Sleep Log Table: Description</h2>
+<table class="desc">
+  <tr><th>#</th><th>Name</th><th>Type</th><th>Collation</th><th>Attributes</th><th>Null</th><th>Default</th><th>Extra</th><th>Action</th></tr>
+  <tr><td>1</td><td class="fname">id</td><td>int(11)</td><td></td><td></td><td>No</td><td><i>None</i></td><td>AUTO_INCREMENT</td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>2</td><td class="fname normal">user_id</td><td>int(11)</td><td></td><td>FK → users.id</td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>3</td><td class="fname normal">date</td><td>date</td><td></td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>4</td><td class="fname normal">bedtime</td><td>time</td><td></td><td></td><td>No</td><td>23:00</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>5</td><td class="fname normal">wake_time</td><td>time</td><td></td><td></td><td>No</td><td>07:00</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>6</td><td class="fname normal">duration_mins</td><td>int(11)</td><td></td><td></td><td>Yes</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+</table>
+
+<h2>4.4.2 Sleep Log Table: Data</h2>
+<table class="data">
+  <tr><th>id</th><th>user_id</th><th>date</th><th>bedtime</th><th>wake_time</th><th>duration_mins</th></tr>
+  <tr><td>1</td><td>2</td><td>2026-05-20</td><td>23:00</td><td>07:00</td><td>480</td></tr>
+  <tr><td>2</td><td>2</td><td>2026-05-21</td><td>00:30</td><td>06:30</td><td>360</td></tr>
+  <tr><td>3</td><td>3</td><td>2026-05-20</td><td>22:00</td><td>06:00</td><td>480</td></tr>
+</table>
+
+<hr/>
+
+<!-- ══════════════════════════════════════════════════════
+     4.5  WATER_LOG TABLE
+══════════════════════════════════════════════════════ -->
+<h2>4.5.1 Water Log Table: Description</h2>
+<table class="desc">
+  <tr><th>#</th><th>Name</th><th>Type</th><th>Collation</th><th>Attributes</th><th>Null</th><th>Default</th><th>Extra</th><th>Action</th></tr>
+  <tr><td>1</td><td class="fname">id</td><td>int(11)</td><td></td><td></td><td>No</td><td><i>None</i></td><td>AUTO_INCREMENT</td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>2</td><td class="fname normal">user_id</td><td>int(11)</td><td></td><td>FK → users.id</td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>3</td><td class="fname normal">date</td><td>date</td><td></td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>4</td><td class="fname normal">glasses_count</td><td>int(11)</td><td></td><td></td><td>No</td><td>0</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+</table>
+
+<h2>4.5.2 Water Log Table: Data</h2>
+<table class="data">
+  <tr><th>id</th><th>user_id</th><th>date</th><th>glasses_count</th></tr>
+  <tr><td>1</td><td>2</td><td>2026-05-20</td><td>8</td></tr>
+  <tr><td>2</td><td>2</td><td>2026-05-21</td><td>5</td></tr>
+  <tr><td>3</td><td>3</td><td>2026-05-20</td><td>6</td></tr>
+  <tr><td>4</td><td>4</td><td>2026-05-21</td><td>8</td></tr>
+</table>
+
+<hr/>
+
+<!-- ══════════════════════════════════════════════════════
+     4.6  EXERCISE TABLE
+══════════════════════════════════════════════════════ -->
+<h2>4.6.1 Exercise Table: Description</h2>
+<table class="desc">
+  <tr><th>#</th><th>Name</th><th>Type</th><th>Collation</th><th>Attributes</th><th>Null</th><th>Default</th><th>Extra</th><th>Action</th></tr>
+  <tr><td>1</td><td class="fname">id</td><td>int(11)</td><td></td><td></td><td>No</td><td><i>None</i></td><td>AUTO_INCREMENT</td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>2</td><td class="fname normal">user_id</td><td>int(11)</td><td></td><td>FK → users.id</td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>3</td><td class="fname normal">name</td><td>varchar(100)</td><td>utf8_general_ci</td><td></td><td>No</td><td><i>None</i></td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+  <tr><td>4</td><td class="fname normal">done</td><td>tinyint(1)</td><td></td><td></td><td>No</td><td>0</td><td></td><td class="action"><a class="pencil">Change</a><a class="drop">Drop</a><a class="key">Primary</a></td></tr>
+</table>
+
+<h2>4.6.2 Exercise Table: Data</h2>
+<table class="data">
+  <tr><th>id</th><th>user_id</th><th>name</th><th>done</th></tr>
+  <tr><td>1</td><td>2</td><td>Morning Walk — 30 min</td><td>0</td></tr>
+  <tr><td>2</td><td>2</td><td>Stretching — 15 min</td><td>0</td></tr>
+  <tr><td>3</td><td>2</td><td>Workout — 45 min</td><td>1</td></tr>
+  <tr><td>4</td><td>3</td><td>Evening Jog — 20 min</td><td>0</td></tr>
+</table>
+
+<div class="no-print" style="text-align:center;margin-top:30px;">
+  <button onclick="window.print()" style="padding:12px 32px;background:#00008b;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;">
+    🖨️ Print / Save as PDF
+  </button>
+</div>
+
+</body>
+</html>

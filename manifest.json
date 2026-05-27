@@ -1,0 +1,16 @@
+﻿{
+  "name": "HabitPulz",
+  "short_name": "HabitPulz",
+  "description": "Track study and lifestyle habits, plant trees, and chat with your AI coach",
+  "start_url": "/login.html",
+  "display": "standalone",
+  "background_color": "#0f0f1a",
+  "theme_color": "#7c6af7",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [],
+  "categories": ["health", "education", "productivity"]
+}

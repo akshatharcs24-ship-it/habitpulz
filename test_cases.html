@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>HabitPulz - Test Cases</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Times New Roman", Times, serif; background: #fff; padding: 40px; color: #000; }
+  h1 { text-align: center; font-size: 22px; font-weight: bold; color: #00008b; margin-bottom: 6px; }
+  h2 { text-align: center; font-size: 20px; font-weight: bold; color: #00008b; margin-bottom: 24px; }
+  .module-label { font-size: 14px; font-weight: bold; margin: 28px 0 8px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 32px; }
+  th { background: #fff; border: 1px solid #000; padding: 8px 6px; font-weight: bold; text-align: left; font-size: 12px; }
+  td { border: 1px solid #000; padding: 8px 6px; vertical-align: top; font-size: 12px; }
+  td.yes { color: green; font-weight: bold; }
+  td.no  { color: red;   font-weight: bold; }
+  .tc-id { white-space: nowrap; }
+  @media print {
+    body { padding: 20px; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Chapter 5</h1>
+<h2>Testing</h2>
+
+<!-- ═══════════════════════════════════════════ MODULE 1 ═══ -->
+<div class="module-label">Module name: Login / Authentication</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width:7%">TC ID</th>
+      <th style="width:18%">Test Scenario</th>
+      <th style="width:22%">Input Data</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:20%">Actual Result</th>
+      <th style="width:13%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tc-id">TC_001</td>
+      <td>Login with valid admin credentials</td>
+      <td>Email: admin@habitpulz.com<br/>Pass: admin123</td>
+      <td>Redirects to Admin dashboard (admin.html)</td>
+      <td>Admin dashboard loads successfully with user management panel</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_002</td>
+      <td>Login with valid user credentials</td>
+      <td>Email: alex@habitpulz.com<br/>Pass: user123</td>
+      <td>Redirects to main dashboard (index.html)</td>
+      <td>Dashboard loads with habits list, streak stats and greeting</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_003</td>
+      <td>Login with wrong password</td>
+      <td>Email: admin@habitpulz.com<br/>Pass: wrong123</td>
+      <td>Error: 'Invalid email or password' displayed</td>
+      <td>Red error banner appears, no redirect occurs</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_004</td>
+      <td>Login with both fields empty</td>
+      <td>Email: (blank)<br/>Password: (blank)</td>
+      <td>Error message shown, login blocked</td>
+      <td>Error: 'Invalid email or password' shown, stays on login page</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_005</td>
+      <td>Sign up with new account</td>
+      <td>Name: Akshatha<br/>Email: test@gmail.com<br/>Pass: test123</td>
+      <td>Account created, redirects to dashboard</td>
+      <td>User saved to localStorage, redirected to index.html</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_006</td>
+      <td>Sign up with password less than 6 characters</td>
+      <td>Name: Test<br/>Email: t@t.com<br/>Pass: abc</td>
+      <td>Error: 'Please fill all fields correctly'</td>
+      <td>Red error shown, account not created</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_007</td>
+      <td>Logout from dashboard</td>
+      <td>Click Logout link in sidebar</td>
+      <td>Session cleared, redirects to login.html</td>
+      <td>hp_user removed from localStorage, login page loads</td>
+      <td class="yes">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════ MODULE 2 ═══ -->
+<div class="module-label">Module name: Habit Management</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width:7%">TC ID</th>
+      <th style="width:18%">Test Scenario</th>
+      <th style="width:22%">Input Data</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:20%">Actual Result</th>
+      <th style="width:13%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tc-id">TC_008</td>
+      <td>Add new habit</td>
+      <td>Name: "Read 30 min"<br/>Category: Study<br/>Freq: Daily</td>
+      <td>Habit appears in Today's Habits list</td>
+      <td>Habit added to list with emoji, streak 0, toast: "added to your habits!"</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_009</td>
+      <td>Add habit with empty name</td>
+      <td>Name: (blank)</td>
+      <td>Warning toast shown, habit not added</td>
+      <td>Toast: '⚠️ Please enter a habit name', modal stays open</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_010</td>
+      <td>Mark habit as complete</td>
+      <td>Click on any habit card</td>
+      <td>Checkmark shown, streak +1, XP toast shown</td>
+      <td>Habit marked done, streak increments, toast: "completed! +10 XP"</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_011</td>
+      <td>Unmark a completed habit</td>
+      <td>Click completed habit again</td>
+      <td>Habit unchecked, streak decreases by 1</td>
+      <td>Habit reverts to incomplete, streak decremented by 1</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_012</td>
+      <td>Edit existing habit</td>
+      <td>Click edit (pen) icon, change name to "Read 1 hour"</td>
+      <td>Updated name shown in list immediately</td>
+      <td>Modal opens pre-filled, save updates habit, toast: "updated!"</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_013</td>
+      <td>Delete a habit</td>
+      <td>Click trash icon on any habit</td>
+      <td>Habit removed from list</td>
+      <td>Habit deleted from list and localStorage, toast: "🗑️ Habit removed"</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_014</td>
+      <td>Filter habits by Study</td>
+      <td>Click "Study" filter tab</td>
+      <td>Only study category habits shown</td>
+      <td>List filters correctly, lifestyle habits hidden</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_015</td>
+      <td>Filter habits by Lifestyle</td>
+      <td>Click "Lifestyle" filter tab</td>
+      <td>Only lifestyle habits shown</td>
+      <td>List filters correctly, study habits hidden</td>
+      <td class="yes">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════ MODULE 3 ═══ -->
+<div class="module-label">Module name: Study &amp; Lifestyle Features</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width:7%">TC ID</th>
+      <th style="width:18%">Test Scenario</th>
+      <th style="width:22%">Input Data</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:20%">Actual Result</th>
+      <th style="width:13%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tc-id">TC_016</td>
+      <td>Start Pomodoro timer</td>
+      <td>Click Play button in Study section</td>
+      <td>Timer counts down from 25:00</td>
+      <td>Timer starts counting down, button changes to Pause icon</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_017</td>
+      <td>Pause and Reset Pomodoro timer</td>
+      <td>Click Pause, then Reset button</td>
+      <td>Timer pauses, then resets to 25:00</td>
+      <td>Timer pauses on click, reset restores 25:00 and play icon</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_018</td>
+      <td>Log water intake</td>
+      <td>Click 5 glasses in water tracker</td>
+      <td>5 glasses filled, count shows 5/8</td>
+      <td>5 glasses highlighted with 💧, label updates to "5 / 8 glasses"</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_019</td>
+      <td>Sleep calculator — adequate sleep</td>
+      <td>Bedtime: 23:00<br/>Wake: 07:00</td>
+      <td>Shows "8h 0m sleep" in green</td>
+      <td>Result shows "8h 0m sleep" with green color (≥7 hrs)</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_020</td>
+      <td>Sleep calculator — insufficient sleep</td>
+      <td>Bedtime: 01:00<br/>Wake: 05:00</td>
+      <td>Shows "4h 0m sleep" in red/orange</td>
+      <td>Result shows "4h 0m sleep" with red color (&lt;5 hrs)</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_021</td>
+      <td>Mark exercise as done</td>
+      <td>Click exercise item in Lifestyle section</td>
+      <td>Strikethrough applied, toast shown</td>
+      <td>Exercise marked with green tick, strikethrough text, toast: "done!"</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_022</td>
+      <td>Add study goal</td>
+      <td>Click "+ Add Goal", enter "Complete Chapter 3"</td>
+      <td>Goal appears in study goals list</td>
+      <td>New goal added to list with unchecked state</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_023</td>
+      <td>Progress ring update</td>
+      <td>Mark 3 out of 7 habits as done</td>
+      <td>Ring shows ~43% completion</td>
+      <td>Ring animates to 43%, percentage label updates correctly</td>
+      <td class="yes">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════ MODULE 4 ═══ -->
+<div class="module-label">Module name: SDG 15 — Tree Planting</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width:7%">TC ID</th>
+      <th style="width:18%">Test Scenario</th>
+      <th style="width:22%">Input Data</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:20%">Actual Result</th>
+      <th style="width:13%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tc-id">TC_024</td>
+      <td>Log tree planting</td>
+      <td>Count: 5, Type: Oak, Click Log</td>
+      <td>Trees added to forest, stats and history updated</td>
+      <td>Forest grid shows 5 oak trees, CO₂ and area stats update, history entry added</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_025</td>
+      <td>Log with empty count</td>
+      <td>Count: (blank), Click Log</td>
+      <td>Warning toast shown, no entry added</td>
+      <td>Toast: '⚠️ Enter number of trees', log not added</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_026</td>
+      <td>CO₂ offset calculation</td>
+      <td>Plant 10 trees total</td>
+      <td>CO₂ offset shows 220 kg</td>
+      <td>Stats panel shows "220 kg" CO₂ offset (10 × 22 kg)</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_027</td>
+      <td>Forest area calculation</td>
+      <td>Plant 10 trees total</td>
+      <td>Forest area shows 40 m²</td>
+      <td>Stats panel shows "40 m²" forest area (10 × 4 m²)</td>
+      <td class="yes">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════ MODULE 5 ═══ -->
+<div class="module-label">Module name: AI Chatbot (Pulse AI)</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width:7%">TC ID</th>
+      <th style="width:18%">Test Scenario</th>
+      <th style="width:22%">Input Data</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:20%">Actual Result</th>
+      <th style="width:13%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tc-id">TC_028</td>
+      <td>Send message about sleep</td>
+      <td>"How can I sleep better?"</td>
+      <td>AI responds with sleep improvement advice</td>
+      <td>Fallback/Gemini reply shown with sleep tips and emoji</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_029</td>
+      <td>Send message about streaks</td>
+      <td>"How do I maintain my streak?"</td>
+      <td>AI responds with streak maintenance tips</td>
+      <td>Response shown: "Never miss twice — one missed day is an accident..."</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_030</td>
+      <td>Send empty message</td>
+      <td>(blank input), click Send</td>
+      <td>No message sent, input stays empty</td>
+      <td>Nothing happens, chat history unchanged</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_031</td>
+      <td>Send message about water</td>
+      <td>"How much water should I drink?"</td>
+      <td>AI responds with hydration advice</td>
+      <td>Response: "Drink a full glass of water right when you wake up..."</td>
+      <td class="yes">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════ MODULE 6 ═══ -->
+<div class="module-label">Module name: Notifications &amp; Reminders</div>
+<table>
+  <thead>
+    <tr>
+      <th style="width:7%">TC ID</th>
+      <th style="width:18%">Test Scenario</th>
+      <th style="width:22%">Input Data</th>
+      <th style="width:20%">Expected Result</th>
+      <th style="width:20%">Actual Result</th>
+      <th style="width:13%">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tc-id">TC_032</td>
+      <td>Enable notifications</td>
+      <td>Click "Enable Notifications" banner button</td>
+      <td>Browser asks for notification permission</td>
+      <td>Permission dialog appears, on Allow — banner dismisses</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_033</td>
+      <td>Set reminder on habit</td>
+      <td>Add habit with reminder time: 08:00</td>
+      <td>Reminder scheduled, notification fires at 08:00</td>
+      <td>scheduleReminder() called, notification shown at set time</td>
+      <td class="yes">Yes</td>
+    </tr>
+    <tr>
+      <td class="tc-id">TC_034</td>
+      <td>Service worker offline cache</td>
+      <td>Load app, go offline, refresh page</td>
+      <td>App loads from cache without internet</td>
+      <td>All pages load offline via service worker cache (habitpulz-v2)</td>
+      <td class="yes">Yes</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top:20px; font-size:11px; color:#555; text-align:center;">
+  HabitPulz — Test Report &nbsp;|&nbsp; All 34 test cases passed &nbsp;|&nbsp; Status: Yes = Expected matches Actual &nbsp;|&nbsp; No = Mismatch
+</div>
+
+<div class="no-print" style="text-align:center;margin-top:30px;">
+  <button onclick="window.print()" style="padding:12px 32px;background:#1d4ed8;color:#fff;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-family:serif;">
+    🖨️ Print / Save as PDF
+  </button>
+</div>
+
+</body>
+</html>

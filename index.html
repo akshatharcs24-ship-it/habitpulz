@@ -1,0 +1,811 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="theme-color" content="#0f0f1a"/>
+  <title>HabitPulz</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+      <span class="logo-text">HabitPulz</span>
+    </div>
+    <nav class="nav">
+      <a href="#" class="nav-item active" data-section="dashboard">
+        <i class="fa-solid fa-house"></i><span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-section="study">
+        <i class="fa-solid fa-book-open"></i><span>Study</span>
+      </a>
+      <a href="#" class="nav-item" data-section="lifestyle">
+        <i class="fa-solid fa-heart-pulse"></i><span>Lifestyle</span>
+      </a>
+      <a href="#" class="nav-item" data-section="streaks">
+        <i class="fa-solid fa-fire"></i><span>Streaks</span>
+      </a>
+      <a href="#" class="nav-item" data-section="analytics">
+        <i class="fa-solid fa-chart-line"></i><span>Analytics</span>
+      </a>
+      <a href="#" class="nav-item" data-section="chatbot">
+        <i class="fa-solid fa-robot"></i><span>AI Coach</span>
+      </a>
+      <a href="#" class="nav-item" data-section="sdg15">
+        <i class="fa-solid fa-tree"></i><span>Life on Land</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-avatar" id="user-avatar">A</div>
+      <div class="user-info">
+        <span class="user-name" id="user-name-display">User</span>
+        <span class="user-level">Level 7 Achiever</span>
+      </div>
+    </div>
+    <a href="login.html" id="logout-link" style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;color:#7878a0;text-decoration:none;font-size:13px;font-weight:500;margin-top:8px;transition:all .2s" onmouseover="this.style.color='#f76a8a'" onmouseout="this.style.color='#7878a0'">
+      <i class="fa-solid fa-right-from-bracket" style="width:18px;text-align:center"></i><span>Logout</span>
+    </a>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Notification Banner -->
+    <div id="notif-banner" style="display:none;background:linear-gradient(135deg,rgba(124,106,247,.15),rgba(250,204,21,.1));border:1px solid rgba(124,106,247,.3);border-radius:14px;padding:14px 20px;margin-bottom:20px;display:none;align-items:center;gap:14px;flex-wrap:wrap;">
+      <span style="font-size:20px">🔔</span>
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:14px;font-weight:600">Enable Habit Reminders</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Get notified at your set reminder times so you never miss a habit</div>
+      </div>
+      <button id="enable-notif" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;padding:9px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;white-space:nowrap">Enable Notifications</button>
+      <button id="dismiss-notif" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;padding:4px">✕</button>
+    </div>
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="greeting-title">Good morning 👋</h1>
+        <p class="page-sub" id="greeting-sub">Keep the streak alive!</p>
+      </div>
+      <div class="topbar-right">
+        <div class="xp-badge"><i class="fa-solid fa-star"></i> 2,450 XP</div>
+        <button class="btn-add" id="openModal"><i class="fa-solid fa-plus"></i> New Habit</button>
+      </div>
+    </header>
+
+    <!-- Dashboard Section -->
+    <section class="section active" id="dashboard">
+      <!-- Stats Row -->
+      <div class="stats-grid">
+        <div class="stat-card pulse-green">
+          <div class="stat-icon"><i class="fa-solid fa-fire"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="streak-count">12</span>
+            <span class="stat-label">Day Streak</span>
+          </div>
+        </div>
+        <div class="stat-card pulse-blue">
+          <div class="stat-icon"><i class="fa-solid fa-check-circle"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="done-count">0</span>
+            <span class="stat-label">Done Today</span>
+          </div>
+        </div>
+        <div class="stat-card pulse-purple">
+          <div class="stat-icon"><i class="fa-solid fa-list-check"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="total-count">0</span>
+            <span class="stat-label">Total Habits</span>
+          </div>
+        </div>
+        <div class="stat-card pulse-orange">
+          <div class="stat-icon"><i class="fa-solid fa-trophy"></i></div>
+          <div class="stat-info">
+            <span class="stat-value">87%</span>
+            <span class="stat-label">Weekly Rate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Habits -->
+      <div class="section-header">
+        <h2>Today's Habits</h2>
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="study">Study</button>
+          <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
+        </div>
+      </div>
+
+      <div class="habits-list" id="habits-list"></div>
+
+      <!-- Progress Ring -->
+      <div class="progress-section">
+        <div class="progress-card">
+          <h3>Today's Progress</h3>
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="50"/>
+              <circle class="ring-fill" id="ring-fill" cx="60" cy="60" r="50"
+                stroke-dasharray="314" stroke-dashoffset="314"/>
+            </svg>
+            <div class="ring-label">
+              <span id="ring-pct">0%</span>
+              <small>complete</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="quote-card">
+          <i class="fa-solid fa-quote-left quote-icon"></i>
+          <p class="quote-text" id="quote-text">Loading quote...</p>
+          <span class="quote-author" id="quote-author"></span>
+          <button class="btn-quote" id="new-quote"><i class="fa-solid fa-rotate"></i> New Quote</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Study Section -->
+    <section class="section" id="study">
+      <div class="section-header"><h2><i class="fa-solid fa-book-open"></i> Study Habits</h2></div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon study-icon"><i class="fa-solid fa-clock"></i></div>
+          <h4>Pomodoro Timer</h4>
+          <div class="pomodoro">
+            <div class="pomo-display" id="pomo-display">25:00</div>
+            <div class="pomo-controls">
+              <button class="pomo-btn" id="pomo-start"><i class="fa-solid fa-play"></i></button>
+              <button class="pomo-btn" id="pomo-reset"><i class="fa-solid fa-rotate-left"></i></button>
+            </div>
+            <div class="pomo-sessions">Session <span id="pomo-session">1</span> / 4</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon study-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h4>Study Goals</h4>
+          <div class="goals-list" id="study-goals-list"></div>
+          <button class="btn-sm" id="add-study-goal"><i class="fa-solid fa-plus"></i> Add Goal</button>
+        </div>
+        <div class="feature-card full-width">
+          <div class="feature-icon study-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <h4>Weekly Study Tracker</h4>
+          <div class="week-grid" id="week-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lifestyle Section -->
+    <section class="section" id="lifestyle">
+      <div class="section-header"><h2><i class="fa-solid fa-heart-pulse"></i> Lifestyle Habits</h2></div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon life-icon"><i class="fa-solid fa-droplet"></i></div>
+          <h4>Water Intake</h4>
+          <div class="water-tracker">
+            <div class="water-glasses" id="water-glasses"></div>
+            <p class="water-label"><span id="water-count">0</span> / 8 glasses</p>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon life-icon"><i class="fa-solid fa-moon"></i></div>
+          <h4>Sleep Log</h4>
+          <div class="sleep-log">
+            <div class="sleep-input-row">
+              <label>Bedtime</label>
+              <input type="time" class="time-input" id="sleep-bed" value="23:00"/>
+            </div>
+            <div class="sleep-input-row">
+              <label>Wake up</label>
+              <input type="time" class="time-input" id="sleep-wake" value="07:00"/>
+            </div>
+            <div class="sleep-result" id="sleep-result">8h 0m sleep</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon life-icon"><i class="fa-solid fa-dumbbell"></i></div>
+          <h4>Exercise Log</h4>
+          <div class="exercise-list" id="exercise-list"></div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon life-icon"><i class="fa-solid fa-utensils"></i></div>
+          <h4>Meal Tracker</h4>
+          <div class="meal-list">
+            <div class="meal-item"><span class="meal-tag breakfast">Breakfast</span><span>Oats + Fruits</span></div>
+            <div class="meal-item"><span class="meal-tag lunch">Lunch</span><span>Rice + Veggies</span></div>
+            <div class="meal-item"><span class="meal-tag dinner">Dinner</span><span>Not logged yet</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Streaks Section -->
+    <section class="section" id="streaks">
+      <div class="section-header"><h2><i class="fa-solid fa-fire"></i> Streaks & Achievements</h2></div>
+      <div class="achievements-grid" id="achievements-grid"></div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section class="section" id="analytics">
+      <div class="section-header"><h2><i class="fa-solid fa-chart-line"></i> Analytics</h2></div>
+      <div class="analytics-grid">
+        <div class="analytics-card" style="grid-column: 1 / -1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+            <h4>7-Day Completion vs SDG Impact</h4>
+            <div style="display:flex;gap:12px;font-size:12px;">
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(180deg,#7c6af7,#f76a8a);"></span> Habits</span>
+              <span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:linear-gradient(180deg,#4ade80,#16a34a);"></span> Trees</span>
+            </div>
+          </div>
+          <div class="bar-chart" id="bar-chart"></div>
+        </div>
+        <div class="analytics-card">
+          <h4>Habit Categories</h4>
+          <div class="donut-wrap">
+            <svg class="donut" viewBox="0 0 120 120">
+              <circle class="donut-seg" stroke="#7c6af7" cx="60" cy="60" r="45"
+                stroke-dasharray="100 283" stroke-dashoffset="0"/>
+              <circle class="donut-seg" stroke="#f76a8a" cx="60" cy="60" r="45"
+                stroke-dasharray="100 283" stroke-dashoffset="-100"/>
+              <circle class="donut-seg" stroke="#16a34a" cx="60" cy="60" r="45"
+                stroke-dasharray="83 283" stroke-dashoffset="-200"/>
+            </svg>
+            <div class="donut-legend">
+              <span class="legend-dot" style="background:#7c6af7;width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;"></span> Study
+              <span class="legend-dot" style="background:#f76a8a;width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:8px;margin-right:4px;"></span> Lifestyle
+              <span class="legend-dot" style="background:#16a34a;width:8px;height:8px;border-radius:50%;display:inline-block;margin-left:8px;margin-right:4px;"></span> SDG
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chatbot Section -->
+    <section class="section" id="chatbot">
+      <div class="section-header">
+        <h2><i class="fa-solid fa-robot" style="color:var(--thunder); text-shadow:0 0 10px var(--thunder-glow);"></i> AI Habit Coach</h2>
+        <button id="cb-set-key" style="background:rgba(250,204,21,0.1);border:1px solid rgba(250,204,21,0.3);color:var(--thunder);padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;transition:all .2s;">🔑 Set Gemini Key</button>
+      </div>
+      <div style="background:var(--surface);backdrop-filter:var(--glass);-webkit-backdrop-filter:var(--glass);border:1px solid var(--border);border-radius:24px;display:flex;flex-direction:column;height:600px;overflow:hidden;box-shadow:var(--shadow);position:relative;">
+        <div id="user-cb-body" style="flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:20px;background:radial-gradient(circle at center, rgba(124,106,247,0.05), transparent);">
+          <div style="align-self:flex-start;background:rgba(30,30,53,0.8);backdrop-filter:blur(8px);padding:18px 24px;border-radius:20px 20px 20px 0;max-width:80%;border:1px solid rgba(124,106,247,0.3);box-shadow:0 8px 24px rgba(0,0,0,0.2);">
+             <strong style="display:flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--thunder);font-size:14px;letter-spacing:0.5px;text-transform:uppercase;">
+               <i class="fa-solid fa-bolt" style="color:var(--thunder);"></i> Pulse AI
+             </strong>
+             <span style="color:var(--text);font-size:15px;line-height:1.6;">Hey! I'm Pulse AI, your personal habit coach powered by Gemini 🤖 Ask me anything about building habits, studying smarter, sleep, hydration, or your SDG 15 tree goals. Add your Gemini key above for real AI responses!</span>
+          </div>
+        </div>
+        <div style="padding:20px;background:rgba(22,22,42,0.8);backdrop-filter:blur(10px);display:flex;gap:12px;border-top:1px solid var(--border);">
+          <input type="text" id="user-cb-input" class="cb-input-glow" placeholder="Ask your AI coach something..." style="flex:1;padding:16px 24px;border-radius:30px;border:1px solid var(--border);background:rgba(0,0,0,0.3);color:var(--text);outline:none;font-family:Inter,sans-serif;font-size:15px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.2);transition:all 0.2s;">
+          <style>.cb-input-glow:focus { border-color:var(--thunder) !important; box-shadow:0 0 15px rgba(250,204,21,0.2), inset 0 2px 4px rgba(0,0,0,0.2) !important; }</style>
+          <button id="user-cb-send" style="background:linear-gradient(135deg, var(--thunder), #f59e0b);color:#111;border:none;width:54px;height:54px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:20px;box-shadow:0 4px 16px var(--thunder-glow);"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="sdg15">
+      <div class="section-header">
+        <h2><i class="fa-solid fa-tree"></i> Life on Land</h2>
+        <span class="sdg-badge">🌍 UN Goal #15</span>
+      </div>
+
+      <div class="sdg-hero">
+        <div class="sdg-hero-text">
+          <div class="sdg-goal-tag">Sustainable Development Goal 15</div>
+          <h3>Protect, restore and promote sustainable use of terrestrial ecosystems</h3>
+          <p>Every tree you plant contributes to halting biodiversity loss, combating desertification, and restoring degraded land. Track your weekly planting habit and watch your forest grow.</p>
+          <div class="sdg-stats-row">
+            <div class="sdg-mini-stat"><span id="total-trees">0</span><small>Trees Planted</small></div>
+            <div class="sdg-mini-stat"><span id="co2-offset">0 kg</span><small>CO₂ Offset</small></div>
+            <div class="sdg-mini-stat"><span id="plant-streak">0</span><small>Week Streak</small></div>
+            <div class="sdg-mini-stat"><span id="forest-area">0 m²</span><small>Forest Area</small></div>
+          </div>
+        </div>
+        <div class="sdg-hero-visual" id="forest-visual"></div>
+      </div>
+
+      <!-- Weekly Planting Log -->
+      <div class="sdg-grid">
+        <div class="sdg-card">
+          <div class="sdg-card-header">
+            <div class="sdg-card-icon"><i class="fa-solid fa-calendar-week"></i></div>
+            <h4>Weekly Planting Log</h4>
+          </div>
+          <div class="week-plant-grid" id="week-plant-grid"></div>
+          <div class="plant-input-row">
+            <input type="number" id="plant-count" class="plant-input" placeholder="Trees this week" min="1" max="100"/>
+            <select id="plant-type" class="plant-select">
+              <option value="oak">🌳 Oak</option>
+              <option value="pine">🌲 Pine</option>
+              <option value="mango">🥭 Mango</option>
+              <option value="neem">🌿 Neem</option>
+              <option value="bamboo">🎋 Bamboo</option>
+              <option value="fruit">🍎 Fruit Tree</option>
+            </select>
+            <button class="btn-plant" id="log-plant"><i class="fa-solid fa-plus"></i> Log</button>
+          </div>
+        </div>
+
+        <div class="sdg-card">
+          <div class="sdg-card-header">
+            <div class="sdg-card-icon"><i class="fa-solid fa-seedling"></i></div>
+            <h4>My Forest</h4>
+          </div>
+          <div class="forest-grid" id="forest-grid"></div>
+          <p class="forest-caption" id="forest-caption">Plant your first tree to start your forest!</p>
+        </div>
+      </div>
+
+      <!-- Planting History -->
+      <div class="sdg-card" style="margin-top:16px">
+        <div class="sdg-card-header">
+          <div class="sdg-card-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <h4>Planting History</h4>
+        </div>
+        <div id="plant-history"></div>
+      </div>
+
+      <!-- SDG Targets -->
+      <div class="sdg-card" style="margin-top:16px">
+        <div class="sdg-card-header">
+          <div class="sdg-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+          <h4>Life on Land Targets Progress</h4>
+        </div>
+        <div class="sdg-targets" id="sdg-targets"></div>
+      </div>
+
+      <!-- Impact Facts -->
+      <div class="sdg-facts-grid">
+        <div class="sdg-fact-card">
+          <div class="fact-icon">🌳</div>
+          <div class="fact-text">A single tree absorbs ~22 kg of CO₂ per year</div>
+        </div>
+        <div class="sdg-fact-card">
+          <div class="fact-icon">🦋</div>
+          <div class="fact-text">One tree supports up to 500 species of insects</div>
+        </div>
+        <div class="sdg-fact-card">
+          <div class="fact-icon">💧</div>
+          <div class="fact-text">Trees reduce stormwater runoff by up to 40%</div>
+        </div>
+        <div class="sdg-fact-card">
+          <div class="fact-icon">🌡️</div>
+          <div class="fact-text">Urban trees can lower city temps by 2–8°C</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add/Edit Habit Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">Add New Habit</h3>
+        <button class="modal-close" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="edit-habit-id" value=""/>
+        <div class="form-group">
+          <label>Habit Name</label>
+          <input type="text" id="habit-name" placeholder="e.g. Read 30 minutes" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <div class="category-select">
+            <button class="cat-btn active" data-cat="study"><i class="fa-solid fa-book-open"></i> Study</button>
+            <button class="cat-btn" data-cat="lifestyle"><i class="fa-solid fa-heart-pulse"></i> Lifestyle</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Icon</label>
+          <div class="icon-select" id="icon-select">
+            <span class="icon-opt active" data-icon="fa-book">📚</span>
+            <span class="icon-opt" data-icon="fa-pen">✏️</span>
+            <span class="icon-opt" data-icon="fa-dumbbell">🏋️</span>
+            <span class="icon-opt" data-icon="fa-droplet">💧</span>
+            <span class="icon-opt" data-icon="fa-moon">🌙</span>
+            <span class="icon-opt" data-icon="fa-apple">🍎</span>
+            <span class="icon-opt" data-icon="fa-music">🎵</span>
+            <span class="icon-opt" data-icon="fa-code">💻</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Frequency</label>
+          <select class="form-input" id="habit-freq">
+            <option value="daily">Daily</option>
+            <option value="weekdays">Weekdays</option>
+            <option value="weekends">Weekends</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>⏰ Daily Reminder Time (optional)</label>
+          <input type="time" id="habit-reminder" class="form-input" value=""/>
+          <small style="color:var(--text-muted);font-size:11px;margin-top:4px;display:block">Set a time to get a notification reminder for this habit</small>
+        </div>
+        <button class="btn-primary" id="save-habit">Add Habit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-nav">
+    <div class="mobile-nav-inner">
+      <button class="mob-nav-item active" data-section="dashboard"><i class="fa-solid fa-house"></i><span>Home</span></button>
+      <button class="mob-nav-item" data-section="study"><i class="fa-solid fa-book-open"></i><span>Study</span></button>
+      <button class="mob-nav-item" data-section="chatbot"><i class="fa-solid fa-robot"></i><span>AI Coach</span></button>
+      <button class="mob-nav-item" data-section="lifestyle"><i class="fa-solid fa-heart-pulse"></i><span>Life</span></button>
+      <button class="mob-nav-item" data-section="sdg15"><i class="fa-solid fa-tree"></i><span>Trees</span></button>
+    </div>
+  </nav>
+
+  <script src="app.js"></script>
+  <script type="module">
+    import { defineCustomElements } from 'https://unpkg.com/@ionic/pwa-elements@latest/loader/index.es2017.mjs';
+    defineCustomElements(window);
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registered'));
+    }
+  </script>
+</body>
+</html>
+  <script>
+  // ===== AI CHATBOT — Gemini API =====
+  (function() {
+    var GEMINI_KEY = localStorage.getItem("hp_gemini_key") || "";
+    var chatHistory = [];
+    var askedTopics = {};
+    var userName = (JSON.parse(localStorage.getItem("hp_user")||"{}")).name || "there";
+    var habits = JSON.parse(localStorage.getItem("hp_habits") || "[]");
+
+    var SYSTEM_PROMPT = "You are Pulse AI, a friendly and knowledgeable habit coach inside HabitPulz app. " +
+      "Help users with study habits, lifestyle habits, motivation, sleep, hydration, exercise, and SDG 15 tree planting. " +
+      "Keep replies concise (2-4 sentences). Be warm, practical, and NEVER repeat the same advice twice in a conversation. " +
+      "Vary your responses based on conversation history. Use emojis naturally. " +
+      "User's name: " + userName + ". " +
+      (habits.length ? "Their current habits: " + habits.map(function(h){ return h.name + " (streak:" + h.streak + ", done:" + h.done + ")"; }).join(", ") + "." : "No habits added yet.");
+
+    var RESPONSES = {
+      streak: [
+        "Streaks build identity! The goal isn't perfection — it's never missing twice. One missed day is an accident, two is the start of a new (bad) habit. 💪",
+        "To protect your streak: do the habit right after waking up before your brain makes excuses. Pair it with something you already do daily. ⚡",
+        "The 'never miss twice' rule is gold. If you break a streak, your only job is to restart immediately — not tomorrow, right now. 🔥",
+        "Streaks work because they shift your identity. You stop saying 'I'm trying to exercise' and start saying 'I'm someone who exercises.' That shift is everything. 🎯",
+        "Even a 1-minute version of your habit counts on hard days. A tiny streak is infinitely better than a broken one. Keep the chain alive! ⛓️"
+      ],
+      study: [
+        "Try the Pomodoro technique: 25 min deep focus → 5 min break. Your brain retains far more in shorter focused bursts than long passive sessions. 📚",
+        "Active recall beats re-reading every time. After studying, close the book and write down everything you remember. It feels harder — that's why it works. ✏️",
+        "Spaced repetition is the most evidence-backed study method. Review material at 1 day, 3 days, 1 week, 2 weeks intervals for maximum retention. 🧠",
+        "Study in the same place every day. Your brain associates that environment with focus mode — it becomes a trigger for deep work. 🎓",
+        "The Feynman technique: explain what you learned as if teaching a 10-year-old. If you can't explain it simply, you don't understand it yet. 💡",
+        "Interleaving works better than blocked practice. Mix different subjects in one session instead of doing all of one topic — it feels harder but sticks better. 📖"
+      ],
+      sleep: [
+        "Aim for 7-9 hours with a consistent schedule, even on weekends. Your circadian rhythm loves routine — irregular sleep is like giving yourself jet lag every week. 🌙",
+        "Avoid screens 30 min before bed. Blue light suppresses melatonin and delays sleep onset by up to 90 minutes. Try reading or light stretching instead. 😴",
+        "Sleep is when your brain consolidates memories and clears toxins. Skipping it doesn't just make you tired — it literally reduces next-day IQ and emotional control. 🧠",
+        "The 10-3-2-1-0 rule: no caffeine 10hrs before bed, no food 3hrs, no work 2hrs, no screens 1hr, and 0 snooze hits in the morning. 🕐",
+        "A cool room (18-20°C) dramatically improves sleep quality. Your body temperature needs to drop to initiate deep sleep. 🌡️"
+      ],
+      water: [
+        "Drink a full glass of water right when you wake up — before coffee. It kickstarts metabolism and rehydrates after 8 hours without fluids. 💧",
+        "Dehydration causes fatigue and brain fog before you even feel thirsty. By the time you're thirsty, you're already 1-2% dehydrated. Keep a bottle visible! 🫙",
+        "Habit stack water with existing habits: one glass before each meal, one after brushing teeth, one when you sit at your desk. That's 6 glasses without thinking. 💦",
+        "Cold water increases alertness and can boost metabolism slightly. If you struggle with plain water, add lemon or cucumber to make it more appealing. 🍋",
+        "Your brain is 75% water. Even mild dehydration reduces concentration, short-term memory, and mood. Water is literally brain fuel. 🧠"
+      ],
+      exercise: [
+        "Even 20 minutes of walking boosts focus and mood for hours. Exercise increases BDNF — a protein that literally grows new brain cells! 🏃",
+        "Consistency beats intensity every time. A 15-min daily workout beats a 2-hour session once a week — both for fitness and habit formation. 💪",
+        "Exercise is the single most powerful thing you can do for your brain. It improves memory, focus, creativity, and emotional regulation simultaneously. 🧠",
+        "The best workout is the one you'll actually do. Don't optimize for perfect — optimize for consistent. Start with 10 minutes if that's what you can manage. 🎯",
+        "Morning exercise sets your cortisol rhythm correctly, improves mood all day, and means it's done before life gets in the way. Try it for 2 weeks. ☀️"
+      ],
+      motivation: [
+        "Motivation follows action, not the other way around. Start with just 2 minutes of the habit — momentum builds from there. 🚀",
+        "You don't need to feel motivated to act. Act first — motivation is a feeling that comes after you start, not before. The hardest part is always the first 2 minutes. ⚡",
+        "Identity-based habits work best. Instead of 'I want to read more', say 'I am a reader.' Your actions follow your identity, not your goals. 🎭",
+        "The 2-minute rule: if a habit takes less than 2 minutes, do it now. It also works as a starter — commit to just 2 minutes, then keep going if you want. ⏱️",
+        "Environment design beats willpower every time. Put your book on your pillow, your gym shoes by the door, your water bottle on your desk. Make the right choice the easy choice. 🏠"
+      ],
+      tree: [
+        "Planting one tree per week = 52 trees/year absorbing 1,100+ kg of CO₂! Small consistent actions create massive environmental impact. 🌳",
+        "Trees are biodiversity hubs — a single mature oak supports over 500 species of insects, birds, and fungi. Every tree you plant is an ecosystem. 🦋",
+        "SDG 15 is about protecting life on land. Urban trees reduce city temperatures by 2-8°C, cut stormwater runoff by 40%, and improve mental health. 🌿",
+        "The best time to plant a tree was 20 years ago. The second best time is today. Your weekly planting habit is one of the highest-impact things you can do. 🌱",
+        "Neem trees are especially powerful — they grow fast, purify air, have medicinal properties, and thrive in hot climates. Great choice for SDG 15! 🌿"
+      ],
+      greet: [
+        "Hey " + userName + "! I'm Pulse AI, your personal habit coach 🤖 Ask me anything about building habits, studying smarter, sleep, or your SDG 15 tree goals!",
+        "Hi " + userName + "! Great to see you. What habit challenge can I help you tackle today? 💪",
+        "Hello " + userName + "! Ready to level up your habits? Ask me anything — study tips, sleep, motivation, or your tree planting goals. 🌱",
+        "Hey! What's on your mind today, " + userName + "? I'm here to help you build habits that actually stick. 🎯"
+      ],
+      habits: [
+        "Looking at your habits — consistency is the key metric, not perfection. Which habit feels hardest to maintain right now? I can give specific advice. 📊",
+        "Your streaks show real commitment! The habits with lower streaks are worth examining — is it a time issue, motivation issue, or environment issue? 🔍",
+        "Habit stacking is powerful: attach a new habit to an existing one. 'After I brush my teeth, I will read for 5 minutes.' The existing habit becomes the trigger. ⛓️",
+        "The habit loop is: Cue → Routine → Reward. If a habit isn't sticking, identify which part is broken. Usually it's a missing reward or unclear cue. 🔄"
+      ],
+      default: [
+        "That's a great question! The foundation of any habit is making it obvious, attractive, easy, and satisfying. Which of those feels missing for you? 🎯",
+        "Habit science says: start smaller than you think you need to. Most people fail because they start too big. What's the tiniest version of this habit? 🌱",
+        "Context matters a lot for habits. When, where, and after what existing habit would you do this? Specificity dramatically increases follow-through. 📍",
+        "The most successful habit builders focus on systems, not goals. A goal is a destination; a system is the vehicle. What system can we build here? ⚙️",
+        "Tracking a habit makes you 2x more likely to stick with it — just the act of recording creates accountability. Are you tracking this one? 📈",
+        "Have you tried the 'if-then' planning technique? 'If it's 7am, then I will do X.' Pre-deciding removes the daily decision fatigue that kills habits. 🧩"
+      ]
+    };
+
+    function pickResponse(topic) {
+      if (!askedTopics[topic]) askedTopics[topic] = 0;
+      var arr = RESPONSES[topic];
+      var idx = askedTopics[topic] % arr.length;
+      askedTopics[topic]++;
+      return arr[idx];
+    }
+
+    function fallbackReply(msg) {
+      var m = msg.toLowerCase();
+      if (m.match(/streak|miss|consistent|chain/))                          return pickResponse("streak");
+      if (m.match(/study|learn|focus|pomodoro|exam|school|college|revision/)) return pickResponse("study");
+      if (m.match(/sleep|tired|rest|bed|insomnia|wake/))                    return pickResponse("sleep");
+      if (m.match(/water|hydrat|drink|glass/))                              return pickResponse("water");
+      if (m.match(/exercise|workout|gym|run|walk|fit|yoga/))                return pickResponse("exercise");
+      if (m.match(/motivat|lazy|procrastinat|stuck|hard|difficult/))        return pickResponse("motivation");
+      if (m.match(/tree|plant|sdg|environment|nature|forest|green/))        return pickResponse("tree");
+      if (m.match(/hi\b|hello|hey|morning|afternoon|evening|sup\b/))        return pickResponse("greet");
+      if (m.match(/habit|streak|track|goal|progress/))                      return pickResponse("habits");
+      return pickResponse("default");
+    }
+
+    function botMsgHTML(text) {
+      return '<div style="animation:slideUp 0.3s ease;align-self:flex-start;background:rgba(30,30,53,0.8);backdrop-filter:blur(8px);padding:18px 24px;border-radius:20px 20px 20px 0;max-width:82%;border:1px solid rgba(124,106,247,0.3);box-shadow:0 8px 24px rgba(0,0,0,0.2);">' +
+        '<strong style="display:flex;align-items:center;gap:8px;margin-bottom:8px;color:var(--thunder);font-size:13px;letter-spacing:0.5px;text-transform:uppercase;"><i class="fa-solid fa-bolt"></i> Pulse AI</strong>' +
+        '<span style="color:var(--text);font-size:15px;line-height:1.6;">' + text + '</span></div>';
+    }
+
+    function userMsgHTML(text) {
+      return '<div style="animation:slideUp 0.3s ease;align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:16px 20px;border-radius:20px 20px 0 20px;max-width:80%;box-shadow:0 8px 24px rgba(124,106,247,0.3);font-size:15px;line-height:1.5;">' + text + '</div>';
+    }
+
+    function typingHTML() {
+      return '<div id="cb-typing" style="align-self:flex-start;background:rgba(30,30,53,0.8);padding:16px 20px;border-radius:20px 20px 20px 0;border:1px solid rgba(124,106,247,0.3);display:flex;gap:6px;align-items:center;">' +
+        '<span style="width:8px;height:8px;background:var(--thunder);border-radius:50%;animation:typingBounce 1s infinite 0s"></span>' +
+        '<span style="width:8px;height:8px;background:var(--thunder);border-radius:50%;animation:typingBounce 1s infinite 0.2s"></span>' +
+        '<span style="width:8px;height:8px;background:var(--thunder);border-radius:50%;animation:typingBounce 1s infinite 0.4s"></span></div>';
+    }
+
+    var style = document.createElement("style");
+    style.textContent = "@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}}";
+    document.head.appendChild(style);
+
+    // ===== GEMINI API CALL =====
+    async function sendToGemini(userMsg) {
+      // Build contents array — Gemini uses "user"/"model" roles
+      var contents = [];
+      // Add conversation history (last 10 turns)
+      chatHistory.slice(-10).forEach(function(m) {
+        contents.push({
+          role: m.role === "assistant" ? "model" : "user",
+          parts: [{ text: m.content }]
+        });
+      });
+      // Add current user message
+      contents.push({ role: "user", parts: [{ text: userMsg }] });
+
+      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + GEMINI_KEY;
+
+      var resp = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: contents,
+          generationConfig: {
+            maxOutputTokens: 300,
+            temperature: 0.85,
+            topP: 0.95
+          }
+        })
+      });
+
+      if (!resp.ok) {
+        var err = await resp.json().catch(() => ({}));
+        throw new Error((err.error && err.error.message) || "Gemini API error " + resp.status);
+      }
+
+      var data = await resp.json();
+      var reply = data.candidates[0].content.parts[0].text.trim();
+
+      // Store in history
+      chatHistory.push({ role: "user",      content: userMsg });
+      chatHistory.push({ role: "assistant", content: reply  });
+
+      return reply;
+    }
+
+    async function handleSend() {
+      var input = document.getElementById("user-cb-input");
+      var val = input.value.trim();
+      if (!val) return;
+      var b = document.getElementById("user-cb-body");
+      input.value = "";
+      b.innerHTML += userMsgHTML(val);
+      b.innerHTML += typingHTML();
+      b.scrollTop = b.scrollHeight;
+
+      var reply;
+      if (GEMINI_KEY) {
+        try {
+          reply = await sendToGemini(val);
+        } catch(e) {
+          console.warn("Gemini error:", e.message);
+          reply = fallbackReply(val) + "\n\n_(AI unavailable: " + e.message + ")_";
+        }
+      } else {
+        await new Promise(function(r){ setTimeout(r, 600 + Math.random()*400); });
+        reply = fallbackReply(val);
+      }
+
+      var typing = document.getElementById("cb-typing");
+      if (typing) typing.remove();
+      b.innerHTML += botMsgHTML(reply);
+      b.scrollTop = b.scrollHeight;
+    }
+
+    // ===== API KEY BUTTON =====
+    var keyBtn = document.getElementById("cb-set-key");
+    if (keyBtn) {
+      function updateKeyBtn() {
+        if (GEMINI_KEY) {
+          keyBtn.textContent = "✅ Gemini Active";
+          keyBtn.style.color = "var(--green)";
+          keyBtn.style.borderColor = "rgba(74,222,128,0.4)";
+        } else {
+          keyBtn.textContent = "🔑 Set Gemini Key";
+          keyBtn.style.color = "";
+          keyBtn.style.borderColor = "";
+        }
+      }
+      keyBtn.onclick = function() {
+        var k = prompt(
+          "Paste your Gemini API key:\n\n" +
+          "Get a free key at:\nhttps://aistudio.google.com/app/apikey\n\n" +
+          "(Key starts with 'AIza')"
+        );
+        if (k && k.startsWith("AIza")) {
+          localStorage.setItem("hp_gemini_key", k);
+          GEMINI_KEY = k;
+          updateKeyBtn();
+          alert("✅ Gemini key saved! The AI chatbot is now active.");
+        } else if (k) {
+          alert("Invalid key — Gemini keys start with 'AIza'.\nGet yours at: https://aistudio.google.com/app/apikey");
+        }
+      };
+      updateKeyBtn();
+    }
+
+    document.getElementById("user-cb-send").addEventListener("click", handleSend);
+    document.getElementById("user-cb-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") handleSend();
+    });
+  })();
+  </script>
+</body>
+</html>
+
+    var SYSTEM_PROMPT = "You are Pulse AI, a friendly and knowledgeable habit coach inside HabitPulz app. " +
+      "Help users with study habits, lifestyle habits, motivation, sleep, hydration, exercise, and SDG 15 tree planting. " +
+      "Keep replies concise (2-4 sentences). Be warm, practical, and NEVER repeat the same advice twice in a conversation. " +
+      "Vary your responses based on conversation history. Use emojis naturally. " +
+      "User's name: " + userName + ". " +
+      (habits.length ? "Their current habits: " + habits.map(function(h){ return h.name + " (streak:" + h.streak + ", done:" + h.done + ")"; }).join(", ") + "." : "No habits added yet.");
+
+    // Multiple varied responses per topic — pick next unused one
+    var RESPONSES = {
+      streak: [
+        "Streaks build identity! The goal isn't perfection — it's never missing twice. One missed day is an accident, two is the start of a new (bad) habit. 💪",
+        "To protect your streak: do the habit right after waking up before your brain makes excuses. Pair it with something you already do daily. ⚡",
+        "The 'never miss twice' rule is gold. If you break a streak, your only job is to restart immediately — not tomorrow, right now. 🔥",
+        "Streaks work because they shift your identity. You stop saying 'I'm trying to exercise' and start saying 'I'm someone who exercises.' That shift is everything. 🎯",
+        "Even a 1-minute version of your habit counts on hard days. A tiny streak is infinitely better than a broken one. Keep the chain alive! ⛓️"
+      ],
+      study: [
+        "Try the Pomodoro technique: 25 min deep focus → 5 min break. Your brain retains far more in shorter focused bursts than long passive sessions. 📚",
+        "Active recall beats re-reading every time. After studying, close the book and write down everything you remember. It feels harder — that's why it works. ✏️",
+        "Spaced repetition is the most evidence-backed study method. Review material at 1 day, 3 days, 1 week, 2 weeks intervals for maximum retention. 🧠",
+        "Study in the same place every day. Your brain associates that environment with focus mode — it becomes a trigger for deep work. 🎓",
+        "The Feynman technique: explain what you learned as if teaching a 10-year-old. If you can't explain it simply, you don't understand it yet. 💡",
+        "Interleaving works better than blocked practice. Mix different subjects in one session instead of doing all of one topic — it feels harder but sticks better. 📖"
+      ],
+      sleep: [
+        "Aim for 7-9 hours with a consistent schedule, even on weekends. Your circadian rhythm loves routine — irregular sleep is like giving yourself jet lag every week. 🌙",
+        "Avoid screens 30 min before bed. Blue light suppresses melatonin and delays sleep onset by up to 90 minutes. Try reading or light stretching instead. 😴",
+        "Sleep is when your brain consolidates memories and clears toxins. Skipping it doesn't just make you tired — it literally reduces next-day IQ and emotional control. 🧠",
+        "The 10-3-2-1-0 rule: no caffeine 10hrs before bed, no food 3hrs, no work 2hrs, no screens 1hr, and 0 snooze hits in the morning. 🕐",
+        "A cool room (18-20°C) dramatically improves sleep quality. Your body temperature needs to drop to initiate deep sleep. 🌡️"
+      ],
+      water: [
+        "Drink a full glass of water right when you wake up — before coffee. It kickstarts metabolism and rehydrates after 8 hours without fluids. 💧",
+        "Dehydration causes fatigue and brain fog before you even feel thirsty. By the time you're thirsty, you're already 1-2% dehydrated. Keep a bottle visible! 🫙",
+        "Habit stack water with existing habits: one glass before each meal, one after brushing teeth, one when you sit at your desk. That's 6 glasses without thinking. 💦",
+        "Cold water increases alertness and can boost metabolism slightly. If you struggle with plain water, add lemon or cucumber to make it more appealing. 🍋",
+        "Your brain is 75% water. Even mild dehydration reduces concentration, short-term memory, and mood. Water is literally brain fuel. 🧠"
+      ],
+      exercise: [
+        "Even 20 minutes of walking boosts focus and mood for hours. Exercise increases BDNF — a protein that literally grows new brain cells! 🏃",
+        "Consistency beats intensity every time. A 15-min daily workout beats a 2-hour session once a week — both for fitness and habit formation. 💪",
+        "Exercise is the single most powerful thing you can do for your brain. It improves memory, focus, creativity, and emotional regulation simultaneously. 🧠",
+        "The best workout is the one you'll actually do. Don't optimize for perfect — optimize for consistent. Start with 10 minutes if that's what you can manage. 🎯",
+        "Morning exercise sets your cortisol rhythm correctly, improves mood all day, and means it's done before life gets in the way. Try it for 2 weeks. ☀️"
+      ],
+      motivation: [
+        "Motivation follows action, not the other way around. Start with just 2 minutes of the habit — momentum builds from there. 🚀",
+        "You don't need to feel motivated to act. Act first — motivation is a feeling that comes after you start, not before. The hardest part is always the first 2 minutes. ⚡",
+        "Identity-based habits work best. Instead of 'I want to read more', say 'I am a reader.' Your actions follow your identity, not your goals. 🎭",
+        "The 2-minute rule: if a habit takes less than 2 minutes, do it now. It also works as a starter — commit to just 2 minutes, then keep going if you want. ⏱️",
+        "Environment design beats willpower every time. Put your book on your pillow, your gym shoes by the door, your water bottle on your desk. Make the right choice the easy choice. 🏠"
+      ],
+      tree: [
+        "Planting one tree per week = 52 trees/year absorbing 1,100+ kg of CO₂! Small consistent actions create massive environmental impact. 🌳",
+        "Trees are biodiversity hubs — a single mature oak supports over 500 species of insects, birds, and fungi. Every tree you plant is an ecosystem. 🦋",
+        "SDG 15 is about protecting life on land. Urban trees reduce city temperatures by 2-8°C, cut stormwater runoff by 40%, and improve mental health. 🌿",
+        "The best time to plant a tree was 20 years ago. The second best time is today. Your weekly planting habit is one of the highest-impact things you can do. 🌱",
+        "Neem trees are especially powerful — they grow fast, purify air, have medicinal properties, and thrive in hot climates. Great choice for SDG 15! 🌿"
+      ],
+      greet: [
+        "Hey " + userName + "! I'm Pulse AI, your personal habit coach 🤖 Ask me anything about building habits, studying smarter, sleep, or your SDG 15 tree goals!",
+        "Hi " + userName + "! Great to see you. What habit challenge can I help you tackle today? 💪",
+        "Hello " + userName + "! Ready to level up your habits? Ask me anything — study tips, sleep, motivation, or your tree planting goals. 🌱",
+        "Hey! What's on your mind today, " + userName + "? I'm here to help you build habits that actually stick. 🎯"
+      ],
+      habits: [
+        "Looking at your habits — consistency is the key metric, not perfection. Which habit feels hardest to maintain right now? I can give specific advice. 📊",
+        "Your streaks show real commitment! The habits with lower streaks are worth examining — is it a time issue, motivation issue, or environment issue? 🔍",
+        "Habit stacking is powerful: attach a new habit to an existing one. 'After I brush my teeth, I will read for 5 minutes.' The existing habit becomes the trigger. ⛓️",
+        "The habit loop is: Cue → Routine → Reward. If a habit isn't sticking, identify which part is broken. Usually it's a missing reward or unclear cue. 🔄"
+      ],
+      default: [
+        "That's a great question! The foundation of any habit is making it obvious, attractive, easy, and satisfying. Which of those feels missing for you? 🎯",
+        "Habit science says: start smaller than you think you need to. Most people fail because they start too big. What's the tiniest version of this habit? 🌱",
+        "Context matters a lot for habits. When, where, and after what existing habit would you do this? Specificity dramatically increases follow-through. 📍",
+        "The most successful habit builders focus on systems, not goals. A goal is a destination; a system is the vehicle. What system can we build here? ⚙️",
+        "Tracking a habit makes you 2x more likely to stick with it — just the act of recording creates accountability. Are you tracking this one? 📈",
+        "Have you tried the 'if-then' planning technique? 'If it's 7am, then I will do X.' Pre-deciding removes the daily decision fatigue that kills habits. 🧩"
+      ]
+    };
+
+    function pickResponse(topic) {
+      if (!askedTopics[topic]) askedTopics[topic] = 0;
+      var arr = RESPONSES[topic];
+      var idx = askedTopics[topic] % arr.length;
+      askedTopics[topic]++;
+      return arr[idx];
+    }
+
+    function fallbackReply(msg) {
+      var m = msg.toLowerCase();
+      if (m.match(/streak|miss|consistent|chain/))           return pickResponse("streak");
+      if (m.match(/study|learn|focus|pomodoro|exam|school|college|revision/)) return pickResponse("study");
+      if (m.match(/sleep|tired|rest|bed|insomnia|wake/))     return pickResponse("sleep");
+      if (m.match(/water|hydrat|drink|glass/))               return pickResponse("water");
+      if (m.match(/exercise|workout|gym|run|walk|fit|yoga/)) return pickResponse("exercise");
+      if (m.match(/motivat|lazy|procrastinat|stuck|hard|difficult/)) return pickResponse("motivation");
+      if (m.match(/tree|plant|sdg|environment|nature|forest|green/)) return pickResponse("tree");
+      if (m.match(/hi\b|hello|hey|morning|afternoon|evening|sup\b/)) return pickResponse("greet");
+      if (m.match(/habit|streak|track|goal|progress/))       return pickResponse("habits");
+      return pickResponse("default");
+    }
+
+  </script>
+</body>
+</html>

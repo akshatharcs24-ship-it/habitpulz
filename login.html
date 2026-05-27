@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#0f0f1a"/>
+<title>HabitPulz Login</title>
+<link rel="manifest" href="manifest.json"/>
+<link rel="apple-touch-icon" href="icons/icon-192.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07070b;--sur:rgba(22,22,42,.55);--sur2:rgba(30,30,53,.75);--bor:rgba(124,106,247,.25);--txt:#f0f0f5;--mut:#8a8ab0;--ac:#7c6af7;--ac2:#f76a8a;--grn:#4ade80}
+body{font-family:Inter,sans-serif;background:radial-gradient(circle at top right,#16162a 0%,var(--bg) 70%);background-attachment:fixed;color:var(--txt);min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:.15;animation:fl 8s ease-in-out infinite;pointer-events:none}
+.b1{width:400px;height:400px;background:var(--ac);top:-100px;left:-100px}
+.b2{width:300px;height:300px;background:var(--ac2);bottom:-80px;right:-80px;animation-delay:3s}
+.b3{width:200px;height:200px;background:var(--grn);top:50%;left:50%;animation-delay:5s}
+@keyframes fl{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+.wrap{display:flex;width:900px;max-width:95vw;min-height:560px;background:var(--sur);border:1px solid var(--bor);border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);position:relative;z-index:1}
+.left{flex:1;background:linear-gradient(135deg,#1a1535,#0f0f1a);padding:48px 40px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.left::before{content:'';position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(124,106,247,.2),transparent);top:-50px;left:-50px;border-radius:50%}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:46px;height:46px;background:linear-gradient(135deg,#facc15,#f59e0b);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#111;box-shadow:0 0 20px rgba(250,204,21,.5);animation:tp 2s infinite ease-in-out}
+@keyframes tp{0%,100%{box-shadow:0 0 15px rgba(250,204,21,.5);transform:scale(1)}50%{box-shadow:0 0 35px rgba(250,204,21,.5),0 0 50px rgba(250,204,21,.3);transform:scale(1.05)}}
+.brand-name{font-size:24px;font-weight:800;letter-spacing:1px;background:linear-gradient(90deg,#fff 0%,#facc15 50%,#7c6af7 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:sh 4s linear infinite}
+@keyframes sh{to{background-position:200% center}}
+.lc{position:relative;z-index:1}
+.lc h2{font-size:28px;font-weight:800;line-height:1.3;margin-bottom:16px}
+.lc p{font-size:14px;color:var(--mut);line-height:1.7}
+.pills{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.pill{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.04);border:1px solid var(--bor);border-radius:12px;padding:12px 16px;font-size:13px}
+.lfoot{font-size:12px;color:var(--mut)}
+.right{width:420px;padding:48px 40px;display:flex;flex-direction:column;justify-content:center}
+.tabs{display:flex;background:var(--sur2);border-radius:12px;padding:4px;margin-bottom:32px}
+.tab{flex:1;padding:10px;border:none;background:transparent;color:var(--mut);font-size:13px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .2s;font-family:Inter,sans-serif}
+.tab.active{background:var(--ac);color:#fff}
+.ftitle{font-size:22px;font-weight:700;margin-bottom:6px}
+.fsub{font-size:13px;color:var(--mut);margin-bottom:28px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.fg label{font-size:12px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.iw{position:relative}
+.iw i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:14px}
+.fi{width:100%;background:var(--sur2);border:1px solid var(--bor);color:var(--txt);padding:12px 14px 12px 40px;border-radius:10px;font-size:14px;font-family:Inter,sans-serif;transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--ac)}
+.eye{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--mut);cursor:pointer;font-size:14px}
+.rrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;font-size:13px}
+.rrow label{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--mut)}
+.rrow a{color:var(--ac);text-decoration:none}
+.btnl{width:100%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:none;padding:13px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:opacity .2s,transform .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btnl:hover{opacity:.9;transform:translateY(-1px)}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--mut);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--bor)}
+.demos{display:flex;flex-direction:column;gap:8px}
+.demo{display:flex;align-items:center;gap:10px;background:var(--sur2);border:1px solid var(--bor);color:var(--txt);padding:10px 14px;border-radius:10px;font-size:13px;cursor:pointer;font-family:Inter,sans-serif;transition:border-color .2s;text-align:left;width:100%}
+.demo:hover{border-color:var(--ac)}
+.dbadge{margin-left:auto;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.ba{background:rgba(247,106,138,.15);color:var(--ac2)}
+.bu{background:rgba(124,106,247,.15);color:var(--ac)}
+.err{background:rgba(247,106,138,.1);border:1px solid rgba(247,106,138,.3);color:var(--ac2);padding:10px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none}
+#sf{display:none}
+@media(max-width:700px){.left{display:none}.right{width:100%}}
+</style>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="wrap">
+  <div class="left">
+    <div class="brand">
+      <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
+      <span class="brand-name">HabitPulz</span>
+    </div>
+    <div class="lc">
+      <h2>Build habits that<br/>actually stick.</h2>
+      <p>Track study sessions, lifestyle goals, and daily routines all in one place.</p>
+      <div class="pills">
+        <div class="pill">&#128218; Smart study habit tracking</div>
+        <div class="pill">&#128293; Streak and XP reward system</div>
+        <div class="pill">&#129302; AI habit coach chatbot</div>
+        <div class="pill">&#128202; Progress analytics dashboard</div>
+      </div>
+    </div>
+    <div class="lfoot">&#169; 2026 HabitPulz</div>
+  </div>
+  <div class="right">
+    <div class="tabs">
+      <button class="tab active" id="tl">Sign In</button>
+      <button class="tab" id="ts">Sign Up</button>
+    </div>
+    <div id="lf">
+      <div class="ftitle">Welcome back &#128075;</div>
+      <div class="fsub">Sign in to continue your streak</div>
+      <div class="err" id="lerr">Invalid email or password.</div>
+      <div class="fg"><label>Email</label><div class="iw"><i class="fa-solid fa-envelope"></i><input type="email" class="fi" id="lemail" placeholder="you@example.com"/></div></div>
+      <div class="fg"><label>Password</label><div class="iw"><i class="fa-solid fa-lock"></i><input type="password" class="fi" id="lpass" placeholder="Password"/><button class="eye" id="eyebtn"><i class="fa-solid fa-eye"></i></button></div></div>
+      <div class="rrow"><label><input type="checkbox"/> Remember me</label><a href="#">Forgot password?</a></div>
+      <button class="btnl" id="dobtn"><i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In</button>
+      <div class="divider">or try a demo account</div>
+      <div class="demos">
+        <button class="demo" id="d1"><i class="fa-solid fa-shield-halved"></i><div><div style="font-weight:600">Admin Account</div><div style="font-size:11px;opacity:.7">admin@HabitPulz.com</div></div><span class="dbadge ba">Admin</span></button>
+        <button class="demo" id="d2"><i class="fa-solid fa-user"></i><div><div style="font-weight:600">Alex (User)</div><div style="font-size:11px;opacity:.7">alex@HabitPulz.com</div></div><span class="dbadge bu">User</span></button>
+      </div>
+    </div>
+    <div id="sf">
+      <div class="ftitle">Create account &#10024;</div>
+      <div class="fsub">Start your habit journey today</div>
+      <div class="err" id="serr">Please fill all fields correctly.</div>
+      <div class="fg"><label>Full Name</label><div class="iw"><i class="fa-solid fa-user"></i><input type="text" class="fi" id="sname" placeholder="Your name"/></div></div>
+      <div class="fg"><label>Email</label><div class="iw"><i class="fa-solid fa-envelope"></i><input type="email" class="fi" id="semail" placeholder="you@example.com"/></div></div>
+      <div class="fg"><label>Password</label><div class="iw"><i class="fa-solid fa-lock"></i><input type="password" class="fi" id="spass" placeholder="Min 6 characters"/></div></div>
+      <button class="btnl" id="sobtn" style="margin-top:8px"><i class="fa-solid fa-user-plus"></i> Create Account</button>
+    </div>
+  </div>
+</div>
+<script>
+var U=[{name:"Admin",email:"admin@HabitPulz.com",password:"admin123",role:"admin"},{name:"Alex",email:"alex@HabitPulz.com",password:"user123",role:"user"}];
+document.getElementById("d1").onclick=function(){document.getElementById("lemail").value="admin@HabitPulz.com";document.getElementById("lpass").value="admin123";};
+document.getElementById("d2").onclick=function(){document.getElementById("lemail").value="alex@HabitPulz.com";document.getElementById("lpass").value="user123";};
+document.getElementById("tl").onclick=function(){document.getElementById("tl").classList.add("active");document.getElementById("ts").classList.remove("active");document.getElementById("lf").style.display="block";document.getElementById("sf").style.display="none";};
+document.getElementById("ts").onclick=function(){document.getElementById("ts").classList.add("active");document.getElementById("tl").classList.remove("active");document.getElementById("sf").style.display="block";document.getElementById("lf").style.display="none";};
+document.getElementById("eyebtn").onclick=function(){var i=document.getElementById("lpass");var ic=document.querySelector("#eyebtn i");i.type=i.type==="password"?"text":"password";ic.className=i.type==="password"?"fa-solid fa-eye":"fa-solid fa-eye-slash";};
+document.getElementById("dobtn").onclick=function(){var e=document.getElementById("lemail").value.trim();var p=document.getElementById("lpass").value;var u=U.find(function(x){return x.email===e&&x.password===p;});if(!u){document.getElementById("lerr").style.display="block";return;}document.getElementById("lerr").style.display="none";localStorage.setItem("hp_user",JSON.stringify(u));window.location.href=u.role==="admin"?"admin.html":"index.html";};
+document.getElementById("sobtn").onclick=function(){var n=document.getElementById("sname").value.trim();var e=document.getElementById("semail").value.trim();var p=document.getElementById("spass").value;if(!n||!e||p.length<6){document.getElementById("serr").style.display="block";return;}document.getElementById("serr").style.display="none";var u={name:n,email:e,password:p,role:"user"};localStorage.setItem("hp_user",JSON.stringify(u));window.location.href="index.html";};
+document.addEventListener("keydown",function(e){if(e.key==="Enter")document.getElementById("dobtn").click();});
+</script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+</script>
+</body>
+</html>
