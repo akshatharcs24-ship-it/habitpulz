@@ -1,5 +1,5 @@
 ﻿// HabitPulz Service Worker — offline cache + background reminders
-const CACHE = 'HabitPulz-v3';
+const CACHE = 'HabitPulz-v4';
 const ASSETS = [
   '/login.html', '/index.html', '/admin.html',
   '/app.js', '/styles.css', '/manifest.json',
