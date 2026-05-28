@@ -775,11 +775,14 @@ function initNotifications() {
   const dismissBtn = document.getElementById("dismiss-notif");
   if (!banner) return;
 
+  // Safe check — Notification API not available on all mobile browsers
+  if (typeof Notification === "undefined") return;
+
   if (Notification.permission === "default" && !localStorage.getItem("hp_notif_dismissed")) {
     banner.style.display = "flex";
   } else if (Notification.permission === "granted") {
     scheduleAllReminders();
-    startReminderClock(); // check every minute
+    startReminderClock();
   }
 
   if (enableBtn) {
